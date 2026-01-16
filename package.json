@@ -1,0 +1,23 @@
+{
+  "name": "chip8-emu",
+  "version": "1.0.0",
+  "description": "emulator",
+  "homepage": "https://github.com/lawtrel/chip8-emu#readme",
+  "bugs": {
+    "url": "https://github.com/lawtrel/chip8-emu/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lawtrel/chip8-emu.git"
+  },
+  "license": "ISC",
+  "author": "lawtrel",
+  "type": "commonjs",
+  "main": "index.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "vite": "^7.3.1"
+  }
+}
