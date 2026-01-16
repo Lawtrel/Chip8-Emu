@@ -1,0 +1,30 @@
+{
+  "compilerOptions": {
+    /* Configuração Híbrida (Web + Node) */
+    "target": "ES2022",                  /* JS moderno */
+    "module": "NodeNext",                /* Obrigatório para projetos "type": "module" */
+    "moduleResolution": "NodeNext",      /* Garante que imports com .js funcionem */
+    "lib": ["ESNext", "DOM"],            /* "DOM" permite usar document e canvas */
+    
+    /* Strictness & Qualidade */
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+
+    /* Saída */
+    "outDir": "./dist",
+    "rootDir": "./src",
+    
+    /* Permite importar JSON (útil às vezes) */
+    "resolveJsonModule": true
+  },
+  "include": ["src/**/*"],
+  "exclude": ["node_modules", "dist"],
+
+  /* Configuração específica para rodar o terminal com ts-node */
+  "ts-node": {
+    "esm": true,
+    "experimentalSpecifierResolution": "node"
+  }
+}
