@@ -15,8 +15,8 @@ A CHIP-8 emulator implementation that faithfully reproduces the behavior of the 
 ```bash
 git clone <repository>
 cd Chip8-Emu
-make
-./chip8-emu [rom_file]
+npm install
+npm run start:cli [rom_file]
 ```
 
 ### Technical Details
@@ -39,10 +39,10 @@ Uma implementação de emulador CHIP-8 que reproduz fielmente o comportamento da
 
 ### Começando
 ```bash
-git clone <repositório>
+git clone <repository>
 cd Chip8-Emu
-make
-./chip8-emu [arquivo_rom]
+npm install
+npm run start:cli [rom_file]
 ```
 
 ### Detalhes Técnicos
