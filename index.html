@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Chip-8</title>
+    <style>
+        body { background: #333; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
+        canvas { background: #000; border: 4px solid #fff; image-rendering: pixelated; }
+    </style>
+  <script type="module" crossorigin src="./assets/index--yoES_Hb.js"></script>
+</head>
+<body>
+    <div class="container">
+        <h1>Chip-8 Emulator</h1>
+        <div class="controls">
+            <select id="romSelect">
+                <option value="PONG">PONG</option>
+                <option value="TETRIS">TETRIS</option>
+                <option value="INVADERS">INVADERS</option>
+                <option value="TANK">TANK</option>
+                <option value="BLITZ">BLITZ</option>
+            </select>
+            <button id="btnLoad">Load ROM / RESET</button>
+        </div>
+        <canvas id="screen" width="640" height="320"></canvas>
+        <div class="instructions">
+            <h2>Instructions</h2>
+            <p>Use the dropdown to select a ROM and click "Load ROM / RESET" to start.</p>
+            <p>Keyboard Mapping:</p>
+            <ul>
+                <li>1 2 3 4</li>
+                <li>Q W E R</li>
+                <li>A S D F</li>
+                <li>Z X C V</li>
+            </ul>
+        </div>
+    </div>
+</body>
+<style>
+    body { background: #222; color: #fff; font-family: sans-serif; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; margin: 0; }
+    .container { text-align: center; }
+    canvas { background: #000; border: 4px solid #444; margin: 20px 0; image-rendering: pixelated; }
+    .controls { margin-bottom: 15px; }
+    select, button { padding: 8px 15px; font-size: 16px; cursor: pointer; }
+    button { background: #28a745; color: white; border: none; border-radius: 4px; }
+    button:hover { background: #218838; }
+</style>
+</html>
