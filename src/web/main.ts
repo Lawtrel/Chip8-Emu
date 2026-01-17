@@ -10,14 +10,44 @@ let lastTime = 0;
 const fps = 60;
 const fpsInterval = 1000 / fps;
 
+//audio
+let audioCtx: AudioContext | null = null;
+let oscillator: OscillatorNode | null = null;
+let gainNode: GainNode | null = null;
+
 // Controls to select ROM
 const romSelect = document.getElementById('romSelect') as HTMLSelectElement;
 const btnLoad = document.getElementById('btnLoad') as HTMLButtonElement;
 btnLoad.addEventListener('click', () => {
+    initAudio();
+    if (audioCtx && audioCtx.state === 'suspended') {
+        audioCtx.resume();
+    }
     const romName = romSelect.value;
     loadGame(romName);
 });
 
+function initAudio() {
+    if (audioCtx) return;
+    const AudioContext = window.AudioContext || (window as any).webkitAudioContext;
+    audioCtx = new AudioContext();
+
+    // Cria o gerador de som (Oscilador)
+    oscillator = audioCtx.createOscillator();
+    oscillator.type = 'square'; // Som clássico de 8-bits "buzina"
+    oscillator.frequency.setValueAtTime(440, audioCtx.currentTime); // 440Hz (Nota Lá)
+
+    // Cria o controle de volume (Gain)
+    gainNode = audioCtx.createGain();
+    gainNode.gain.value = 0; // Começa mudo
+
+    // Conecta: Oscilador -> Volume -> Saída de Som
+    oscillator.connect(gainNode);
+    gainNode.connect(audioCtx.destination);
+
+    // Liga o oscilador (ele fica tocando "no mudo" o tempo todo)
+    oscillator.start();
+}
 async function loadGame(romName: string) {
     if (animationID) cancelAnimationFrame(animationID);
     cpu.pc = 0x200; // Reseta o PC
@@ -59,6 +89,17 @@ function loop(currentTime: number) {
         // Se o timer for maior que zero, diminua ele
         if (cpu.delayTimer > 0) cpu.delayTimer--;
         if (cpu.soundTimer > 0) cpu.soundTimer--;
+        
+        if (gainNode) {
+            if (cpu.soundTimer > 0) {
+                // Toca o som (10% de volume para não estourar o ouvido)
+                gainNode.gain.value = 0.1; 
+            } else {
+                // Mudo
+                gainNode.gain.value = 0;
+            }
+        }
+
         draw();
     }
 }
