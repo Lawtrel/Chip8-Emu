@@ -31,7 +31,7 @@ async function loadGame(romName: string) {
 
     try {
     // Carrega a ROM via Fetch
-        const response = await fetch(`/roms/${romName}.ch8`);
+        const response = await fetch(`./roms/${romName}.ch8`);
         if (!response.ok) throw new Error(`Failed to load ROM: ${response.statusText}`);
 
         const buffer = await response.arrayBuffer();
