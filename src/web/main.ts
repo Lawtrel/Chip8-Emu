@@ -1,4 +1,4 @@
-import { CPU } from '../core/cpu';
+import { CPU } from '../core/cpu.js';
 
 const canvas = document.getElementById('screen') as HTMLCanvasElement;
 const ctx = canvas.getContext('2d')!;
@@ -12,7 +12,7 @@ const fpsInterval = 1000 / fps;
 
 // Controls to select ROM
 const romSelect = document.getElementById('romSelect') as HTMLSelectElement;
-const startButton = document.getElementById('startButton') as HTMLButtonElement;
+const btnLoad = document.getElementById('btnLoad') as HTMLButtonElement;
 btnLoad.addEventListener('click', () => {
     const romName = romSelect.value;
     loadGame(romName);

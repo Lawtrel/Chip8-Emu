@@ -1,5 +1,5 @@
 import * as fs from 'fs';
-import { CPU } from '../core/cpu';
+import { CPU } from '../core/cpu.js';
 import path from 'path';
 const cpu = new CPU();
 const romName = process.argv[2] || 'PONG.ch8'; // Nome da ROM passado como argumento ou PONG por padrão
