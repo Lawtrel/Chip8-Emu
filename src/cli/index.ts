@@ -1,8 +1,8 @@
 import * as fs from 'fs';
 import { CPU } from '../core/cpu';
 import path from 'path';
-
 const cpu = new CPU();
+const romName = process.argv[2] || 'PONG.ch8'; // Nome da ROM passado como argumento ou PONG por padrão
 
 // --- 1. Mapeamento de Teclas (PC -> Chip-8) ---
 const keyMap: { [key: string]: number } = {
@@ -44,7 +44,7 @@ process.stdin.on('data', (key: Buffer) => {
 // --- 3. Carregar ROM ---
 try {
     //const romData = fs.readFileSync('roms` ,`Tank.ch8');
-    const romPath = path.join(process.cwd(), 'roms', 'PONG.ch8');
+    const romPath = path.join(process.cwd(), 'public', 'roms', romName);
     const romData = fs.readFileSync(romPath);
     cpu.loadRom(new Uint8Array(romData));
     console.clear(); // Limpa o terminal uma vez antes de começar

@@ -9,7 +9,7 @@ export default defineConfig({
 
   build: {
     // Para onde vai o site quando rodar 'npm run build'
-    outDir: 'dist/web',
+    outDir: 'dist',
     emptyOutDir: true,
     
     // Configuração para garantir que o JavaScript seja moderno

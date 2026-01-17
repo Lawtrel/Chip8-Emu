@@ -2,49 +2,76 @@ import { CPU } from '../core/cpu';
 
 const canvas = document.getElementById('screen') as HTMLCanvasElement;
 const ctx = canvas.getContext('2d')!;
-
-// Escala: Cada pixel do Chip-8 vira um quadrado de 10x10 na tela
-const SCALE = 10;
-
+const SCALE = 10; //Cada pixel do Chip-8 vira um quadrado de 10x10 na tela
 const cpu = new CPU();
 
-async function start() {
-    // Carrega a ROM via HTTP (Fetch)
-    const response = await fetch('/roms/test_opcode.ch8');
-    const buffer = await response.arrayBuffer();
-    cpu.loadRom(new Uint8Array(buffer));
+let animationID: number;
+let lastTime = 0;
+const fps = 60;
+const fpsInterval = 1000 / fps;
 
-    // Inicia o Loop
-    loop();
+// Controls to select ROM
+const romSelect = document.getElementById('romSelect') as HTMLSelectElement;
+const startButton = document.getElementById('startButton') as HTMLButtonElement;
+btnLoad.addEventListener('click', () => {
+    const romName = romSelect.value;
+    loadGame(romName);
+});
+
+async function loadGame(romName: string) {
+    if (animationID) cancelAnimationFrame(animationID);
+    cpu.pc = 0x200; // Reseta o PC
+    cpu.I = 0;     // Reseta o registrador I
+    cpu.stack = new Array(16).fill(0); // Reseta a pilha
+    cpu.stackPointer = 0; // Reseta o ponteiro da pilha
+    cpu.registers.fill(0); // Reseta os registradores
+    cpu.memory.fill(0); // Reseta a memória
+    cpu.display.fill(0); // Reseta a tela
+    //cpu.loadFontset(); // Recarrega a fontset
+
+    try {
+    // Carrega a ROM via Fetch
+        const response = await fetch(`/roms/${romName}.ch8`);
+        if (!response.ok) throw new Error(`Failed to load ROM: ${response.statusText}`);
+
+        const buffer = await response.arrayBuffer();
+        cpu.loadRom(new Uint8Array(buffer));
+        
+        lastTime = performance.now();
+        loop(lastTime);
+        btnLoad.blur();
+
+    } catch (error) {
+        console.error('Error loading ROM:', error);
+        alert('Failed to load ROM. See console for details.');
+    }
 }
 
-function loop() {
-    // Roda 10 ciclos de CPU por frame (Speed Hack)
-    for (let i = 0; i < 10; i++) {
-        cpu.cycle();
+function loop(currentTime: number) {
+    animationID = requestAnimationFrame(loop);
+    const delayTimer = currentTime - lastTime;
+    if (delayTimer > fpsInterval) {
+        //Fix 60 fps
+        lastTime = currentTime - (delayTimer % fpsInterval);
+        for (let i = 0; i < 10; i++) {
+            cpu.cycle();
+        }
+        // Se o timer for maior que zero, diminua ele
+        if (cpu.delayTimer > 0) cpu.delayTimer--;
+        if (cpu.soundTimer > 0) cpu.soundTimer--;
+        draw();
     }
-    // Se o timer for maior que zero, diminua ele
-    if (cpu.delayTimer > 0) {
-        cpu.delayTimer--;
-    }
-
-    draw();
-    
-    // Chama o próximo frame (geralmente 60 vezes por segundo)
-    requestAnimationFrame(loop);
 }
 
 function draw() {
     // Limpa a tela
     ctx.fillStyle = 'black';
     ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-    ctx.fillStyle = 'lime'; // Cor dos pixels (Verde clássico)
+    ctx.fillStyle = 'lime'; // Cor dos pixels
 
     for (let y = 0; y < 32; y++) {
         for (let x = 0; x < 64; x++) {
-            // Se o pixel no array da CPU for 1, desenha um quadrado
-            if (cpu.display[y * 64 + x] === 1) {
+            if (cpu.display[y * 64 + x]) {
                 ctx.fillRect(x * SCALE, y * SCALE, SCALE, SCALE);
             }
         }
@@ -73,4 +100,4 @@ document.addEventListener('keyup', (event) => {
     }
 });
 
-start();
+loadGame('PONG'); // Carrega o jogo PONG por padrão ao iniciar a página
