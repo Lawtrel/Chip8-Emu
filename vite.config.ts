@@ -2,7 +2,8 @@ import { defineConfig } from 'vite';
 
 export default defineConfig({
   // A raiz do servidor de desenvolvimento
-  root: '.', 
+  root: '.',
+  base: './', 
 
   // Onde estão seus arquivos estáticos (ROMs)
   publicDir: 'public',
