@@ -20,7 +20,7 @@ npm run start:cli [rom_file]
 ```
 
 ### Technical Details
-- **Language**: C/C++
+- **Language**: TypeScript
 - **Architecture**: 4KB memory, 16-bit opcodes
 - **Display**: 64x32 pixels
 
@@ -46,6 +46,6 @@ npm run start:cli [rom_file]
 ```
 
 ### Detalhes Técnicos
-- **Linguagem**: C/C++
+- **Linguagem**: TypeScript
 - **Arquitetura**: 4KB memória, opcodes de 16 bits
 - **Display**: 64x32 pixels
